@@ -1,0 +1,167 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Add luxury fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;500&display=swap">
+    <link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+    <title>RaiseUp - Access Restricted</title>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-navy: #0A1A2F;
+            --light-cream: #F8F5F0;
+            --soft-grey: #E8E8E8;
+        }
+        
+        body {
+            background-color: var(--light-cream);
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .luxury-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .error-illustration {
+            max-width: 500px;
+            margin-bottom: 3rem;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+        
+        .error-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+            text-transform: none;
+            position: relative;
+        }
+        
+        .error-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            margin: 1rem auto;
+        }
+        
+        .error-message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: #666;
+        }
+        
+        .btn-luxury {
+            background-color: var(--dark-navy);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--dark-navy);
+        }
+        
+        .btn-luxury:hover {
+            background-color: transparent;
+            color: var(--dark-navy);
+        }
+        
+        .btn-luxury:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .btn-luxury:hover:before {
+            left: 0;
+        }
+        
+        .ornament {
+            position: absolute;
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .ornament-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+        }
+        
+        .ornament-2 {
+            bottom: 10%;
+            right: 5%;
+            width: 120px;
+        }
+        
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 2rem;
+            }
+            
+            .error-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="luxury-container">
+        <!-- Decorative ornaments -->
+        <svg class="ornament ornament-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="var(--gold)"/>
+        </svg>
+        
+        <svg class="ornament ornament-2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="var(--gold)" stroke-width="2" fill="none"/>
+        </svg>
+        
+        <img src="{% static 'homepage/images/403 Error.svg' %}" alt="Access Restricted" class="error-illustration">
+        
+        <h1 class="error-title">Access Restricted</h1>
+        
+        <p class="error-message">
+            We apologize, but access to this page is restricted to authorized personnel only. 
+            Please return to our homepage or contact support if you believe this is an error.
+        </p>
+        
+        <a href="{% url 'home.landing' %}" class="btn btn-luxury">
+            Return to Homepage
+        </a>
+    </div>
+</body>
+</html>

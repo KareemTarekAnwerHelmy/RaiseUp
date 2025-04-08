@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - RaiseUp</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to RaiseUp</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="/admin/">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Welcome to the homepage of RaiseUp!</h2>
+        <p>This is where you can showcase important information for your users.</p>
+        <p>Customize this template as needed.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 RaiseUp. All rights reserved.</p>
+    </footer>
+</body>
+</html>
