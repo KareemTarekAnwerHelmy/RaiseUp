@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 
 # Create your views here.
 from django.contrib.auth.decorators import login_required
@@ -39,3 +39,13 @@ def edit_specific_category(request, category_id):
             form.save()
             return redirect('all_categories')
     return render(request, 'admin_dashboard/edit_category.html', context={"categoryForm": form})
+
+
+
+@login_required(login_url='login')
+@admin_required
+def delete_specific_category(request, category_id):
+    deleted_category = Category.objects.get(id=category_id)
+    deleted_category.delete()
+    url = reverse('all_categories')
+    return redirect(url)
