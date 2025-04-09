@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from home.forms import SearchForm
 from django.db.models import Avg, Count, F
-from projects.models import Projects, Tag,Category
+from projects.models import Project, Tag,Category
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
