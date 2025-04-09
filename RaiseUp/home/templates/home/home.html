@@ -1,0 +1,477 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<!-- Luxury Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gold: #D4AF37;
+        --dark-charcoal: #333333;
+        --ivory: #FFFFF0;
+        --soft-black: #1A1A1A;
+        --cream: #F5F5DC;
+    }
+
+    /* Hero Section Luxury Upgrade */
+    #hero-section {
+        background: linear-gradient(135deg, var(--ivory) 0%, var(--cream) 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    #hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: url('{% static "home/images/goals.svg" %}') no-repeat right center;
+        background-size: contain;
+        opacity: 0.9;
+    }
+
+    #hero-section h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 700;
+        color: var(--dark-charcoal);
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    #hero-section p {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        color: var(--dark-charcoal);
+    }
+
+    .btn-special {
+        background-color: var(--gold);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-special:hover {
+        background-color: #C19A00;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* About Us Section */
+    #about-us {
+        background-color: var(--ivory);
+        padding: 5rem 0;
+    }
+
+    #about-us h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.5rem;
+        color: var(--dark-charcoal);
+    }
+
+    #about-us p {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--dark-charcoal);
+    }
+
+    /* Projects Sections */
+    #highest-rated, #featured, #latest-created, #popular-categories {
+        padding: 5rem 0;
+        background-color: white;
+    }
+
+    #highest-rated .content::after {
+        content: "";
+        background: linear-gradient(to bottom, transparent 0%, var(--soft-black) 100%);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0.8;
+    }
+
+    .carousel-item .layer {
+        z-index: 2;
+    }
+
+    .carousel-item h5 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .carousel-item p {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Cards Luxury Styling */
+    .card {
+        border: none;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .card .img-container {
+        overflow: hidden;
+    }
+
+    .card img {
+        transition: transform 0.5s ease;
+    }
+
+    .card:hover img {
+        transform: scale(1.05);
+    }
+
+    .card h5 {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        color: var(--dark-charcoal);
+    }
+
+    .btn-secondary {
+        background-color: var(--gold);
+        color: white;
+        border: none;
+    }
+
+    /* Categories Section */
+    .bg-gray-color-subtle {
+        background-color: var(--ivory);
+        transition: all 0.3s ease;
+    }
+
+    .bg-gray-color-subtle:hover {
+        background-color: var(--gold);
+        transform: translateY(-5px);
+    }
+
+    .bg-gray-color-subtle:hover .category-paragraph,
+    .bg-gray-color-subtle:hover p {
+        color: white !important;
+    }
+
+    .category-paragraph {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        color: var(--dark-charcoal);
+    }
+
+    /* Section Headings */
+    h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    h2 span {
+        font-weight: 700;
+    }
+
+    h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background-color: var(--gold);
+    }
+
+    /* Carousel Indicators */
+    .carousel-indicators button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ccc;
+        border: none;
+    }
+
+    .carousel-indicators .active {
+        background-color: var(--gold);
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>RaiseUp - Premium Crowdfunding Platform</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<!-- Luxury Hero Section -->
+<section class="vh-100 d-flex align-items-center" id="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-3 fw-bold mb-4">From Vision<br>to Reality</h2>
+                <p class="fs-4 my-4">Be a part of something <span class="fw-bold" style="color: var(--gold);">Extraordinary</span></p>
+                
+                <div class="search-form mt-5">
+                    <form method="GET" action="{% url 'search' %}" class="d-flex align-items-center position-relative">
+                        <div class="me-2">
+                            <select name="search_option" id="id_search_option" class="form-select rounded-pill border-0 shadow-sm py-3">
+                                <option value="project">Project</option>
+                                <option value="tag">Tag</option>
+                            </select>
+                        </div>
+                        <div class="flex-grow-1 position-relative">
+                            <input type="text" name="query" id="id_query" placeholder="Search for a project..." class="form-control border-0 rounded-pill shadow-sm py-3 ps-4" maxlength="100" required>
+                            <button class="btn btn-special rounded-pill px-4 py-2 position-absolute end-0 top-50 translate-middle-y me-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<!-- Luxury About Us Section -->
+<section id="about-us" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-5"><span>About</span> Us</h2>
+                <div class="luxury-divider mb-5"></div>
+                <p class="lead">RaiseUp is Egypt's premier crowdfunding platform, where innovation meets opportunity. We curate exceptional projects that deserve your support.</p>
+                <p class="mt-4">Our mission is to empower visionaries and change-makers to bring their ideas to life through the collective power of a discerning community. Each project on our platform undergoes rigorous selection to ensure quality and potential.</p>
+                <p class="mt-4">Join our exclusive network of backers and creators shaping Egypt's future. Together, we elevate ideas into extraordinary realities.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Luxury Highest-rated Projects Section -->
+<section id="highest-rated" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5"><span>Highest-Rated</span> Projects</h2>
+        
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4 overflow-hidden">
+                {% for project in highest_rated_projects %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="position-relative" style="height: 500px;">
+                        <div class="content h-100 w-100" style="background-image: url('{{ project.image_url }}'); background-size: cover; background-position: center;"></div>
+                        
+                        <div class="project-overlay d-flex flex-column justify-content-end h-100 w-100 p-5">
+                            <div class="row align-items-end">
+                                <div class="col-md-8">
+                                    <h3 class="text-white mb-3">{{ project.title }}</h3>
+                                    <p class="text-white mb-4">{{ project.details|truncatewords:30 }}</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-white me-3">Rating:</span>
+                                        <div class="star-rating">
+                                            {% for star in "*****" %}
+                                                {% if forloop.counter <= project.rate %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star text-light"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    {% if not user.is_superuser %}
+                                    <a href="{% url 'project_details' id=project.id %}" class="btn btn-special btn-lg px-4">Support</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="carousel-indicators position-static mt-4 justify-content-center">
+                {% for project in highest_rated_projects %}
+                <button type="button" data-bs-target="#carouselExampleIndicators" 
+                    data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}
+                    aria-label="Slide {{ forloop.counter }}" style="width: 12px; height: 12px; border-radius: 50%;">
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Luxury Featured Projects Section -->
+<section id="featured" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5"><span>Featured</span> Projects</h2>
+        
+        <div class="row g-4">
+            {% for project in latest_featured_projects %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                    <div class="card-img-top overflow-hidden" style="height: 200px;">
+                        <img src="{{ project.image_url }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ project.title }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <div class="d-flex align-items-center mt-3">
+                            <span class="me-2">Rating:</span>
+                            <div class="star-rating">
+                                {% for star in "*****" %}
+                                    {% if forloop.counter <= project.rate %}
+                                        <i class="fas fa-star text-warning small"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-muted small"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        {% if not user.is_superuser %}
+                        <a href="{% url 'project_details' id=project.id %}" class="btn btn-outline-gold w-100">View Details</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Luxury Latest Projects Section -->
+<section id="latest-created" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5"><span>Latest</span> Projects</h2>
+        
+        <div class="row g-4">
+            {% for project in latest_created_projects %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all">
+                    <div class="card-img-top overflow-hidden" style="height: 200px;">
+                        <img src="{{ project.image_url }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ project.title }}">
+                        <div class="new-badge position-absolute top-0 end-0 bg-gold text-white px-3 py-1 small">
+                            NEW
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <div class="d-flex align-items-center mt-3">
+                            <span class="me-2">Rating:</span>
+                            <div class="star-rating">
+                                {% for star in "*****" %}
+                                    {% if forloop.counter <= project.rate %}
+                                        <i class="fas fa-star text-warning small"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-muted small"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        {% if not user.is_superuser %}
+                        <a href="{% url 'project_details' id=project.id %}" class="btn btn-special w-100">Discover</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Luxury Categories Section -->
+<section id="popular-categories" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5"><span>Popular</span> Categories</h2>
+        
+        <div class="row g-4">
+            {% if categories_list|length <= 6 %}
+                {% for category in categories_list %}
+                <div class="col-md-4">
+                    <a href="{% url 'category_projects' category.id %}" class="text-decoration-none">
+                        <div class="category-card p-4 text-center transition-all h-100">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-folder-open fa-2x text-gold"></i>
+                            </div>
+                            <h5 class="category-title mb-2">{{ category.name }}</h5>
+                            <p class="category-count mb-0">{{ category.num_projects }} Projects</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for category in categories_list %}
+                    {% if forloop.counter <= 5 %}
+                    <div class="col-md-4">
+                        <a href="{% url 'category_projects' category.id %}" class="text-decoration-none">
+                            <div class="category-card p-4 text-center transition-all h-100">
+                                <div class="category-icon mb-3">
+                                    <i class="fas fa-folder-open fa-2x text-gold"></i>
+                                </div>
+                                <h5 class="category-title mb-2">{{ category.name }}</h5>
+                                <p class="category-count mb-0">{{ category.num_projects }} Projects</p>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% if categories_list|length > 6 %}
+                <div class="col-md-4">
+                    <a href="{% url 'all_categories' %}" class="text-decoration-none">
+                        <div class="category-card p-4 text-center transition-all h-100">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-ellipsis-h fa-2x text-gold"></i>
+                            </div>
+                            <h5 class="category-title mb-2">View All</h5>
+                            <p class="category-count mb-0">Explore More</p>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'JS_attachement' %}
+<script src="{% static 'home/js/script.js' %}"></script>
+<script>
+    // Add smooth scrolling to all links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Animation for cards on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .category-card').forEach(card => {
+        observer.observe(card);
+    });
+</script>
+{% endblock %}

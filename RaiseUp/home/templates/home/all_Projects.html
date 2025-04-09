@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/viewProj.css' %}">
+<!-- Luxury Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gold: #D4AF37;
+        --dark-charcoal: #333333;
+        --ivory: #FFFFF0;
+        --soft-black: #1A1A1A;
+        --cream: #F5F5DC;
+    }
+
+    /* Luxury Hero Section */
+    #hero-section {
+        height: 300px !important;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'home/images/header.png' %}') !important;
+        background-position: center !important;
+        background-size: cover !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    #hero-section h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 3.5rem;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        position: relative;
+        padding-bottom: 1rem;
+    }
+
+    #hero-section h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--gold);
+    }
+
+    #hero-section span {
+        color: var(--gold);
+    }
+
+    /* Luxury Projects Grid */
+    .proj-item {
+        background-color: white;
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        padding: 0;
+    }
+
+    .proj-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .proj-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .proj-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .proj-item > div:last-child {
+        padding: 1.5rem;
+    }
+
+    .proj-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--dark-charcoal);
+        margin-bottom: 0.5rem;
+    }
+
+    .proj-goal {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--dark-charcoal);
+        margin-bottom: 0.5rem;
+    }
+
+    .availability {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 0.8rem;
+    }
+
+    .availability:not(:empty) {
+        background-color: rgba(212, 175, 55, 0.1);
+        color: var(--gold);
+        border: 1px solid var(--gold);
+    }
+
+    .proj-text {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.9rem;
+        color: #666;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .proj-tags {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.9rem;
+        color: #666;
+        margin: 1rem 0;
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: rgba(212, 175, 55, 0.1);
+        color: var(--gold);
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        margin-right: 0.3rem;
+        margin-bottom: 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    /* Buttons */
+    .btn-secondary {
+        background-color: var(--gold);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.6rem 1rem;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-secondary:hover {
+        background-color: #C19A00;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Featured Toggle */
+    .btn-outline-special {
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        background-color: transparent;
+        border-radius: 4px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-special:hover, .btn-check:checked + .btn-outline-special {
+        background-color: var(--gold);
+        color: white;
+    }
+
+    /* Responsive Grid */
+    @media (max-width: 992px) {
+        .col-md-3 {
+            width: calc(50% - 1rem);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .col-md-3 {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>RaiseUp - Premium Projects Collection</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<!-- Luxury Hero Section -->
+<section class="d-flex align-items-center justify-content-center" id="hero-section">
+    <div class="container text-center">
+        <h2 class="fw-light mb-0"><span>Premium</span> Projects</h2>
+        <p class="text-white mt-3 mb-0">Discover Egypt's most exceptional crowdfunding opportunities</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<div class="container my-5 py-4">
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+            <div class="proj-item h-100 d-flex flex-column">
+                <div class="overflow-hidden" style="height: 200px;">
+                    <img src="{{ project.image_url }}" class="w-100 h-100 object-fit-cover" alt="{{ project.title }}">
+                </div>
+
+                <div class="p-4 flex-grow-1">
+                    <h3 class="proj-name">{{ project.title }}</h3>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="proj-goal m-0">{{ project.total_target }} EGP</h4>
+                        <div class="availability small">
+                            {% if project.remaining_target <= 0 %}
+                                <i class="fas fa-check-circle me-1"></i> Funded
+                            {% else %}
+                                <i class="fas fa-hourglass-half me-1"></i> {{ project.remaining_target }} EGP
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="project-dates mb-3">
+                        <span class="proj-text"><i class="far fa-calendar-alt me-2"></i> {{ project.start_date|date:"M d, Y" }}</span>
+                        <span class="proj-text"><i class="far fa-calendar-check me-2"></i> {{ project.end_date|date:"M d, Y" }}</span>
+                    </div>
+                    
+                    {% if project.tag.all %}
+                    <div class="proj-tags">
+                        <span class="d-block mb-2"><i class="fas fa-tags me-2"></i>Tags:</span>
+                        <div class="d-flex flex-wrap">
+                            {% for tag in project.tag.all %}
+                                <span class="tag">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="controllers p-4 pt-0">
+                    {% if user.is_superuser %}
+                        <form id="projectForm{{ project.id }}" method="POST" action="{% url 'mark_featured' %}" class="text-end mb-3">
+                            {% csrf_token %}
+                            <input type="hidden" name="project_id" value="{{ project.id }}">
+                            <input type="checkbox" class="btn-check" autocomplete="off" id="{{ project.id }}" name="is_featured" {% if project.is_featured %}checked{% endif %} onchange="submitForm({{ project.id }})">
+                            <label class="btn btn-outline-special" for="{{ project.id }}">
+                                <i class="fas fa-star me-1"></i> Featured
+                            </label>                    
+                        </form>
+                    {% endif %}
+                    {% if not user.is_superuser %}
+                    <a href="{% url 'project_details' id=project.id %}" class="btn btn-secondary">
+                        <i class="fas fa-eye me-2"></i> View Project
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block 'JS_attachement' %}
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    function submitForm(projectId) {
+        const form = document.getElementById('projectForm' + projectId);
+        form.submit();
+    }
+
+    // Add animation to project cards as they come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.proj-item').forEach(card => {
+        observer.observe(card);
+    });
+</script>
+{% endblock %}

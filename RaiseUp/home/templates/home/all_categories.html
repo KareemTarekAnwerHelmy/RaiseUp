@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<!-- Luxury Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --gold: #D4AF37;
+        --dark-charcoal: #333333;
+        --ivory: #FFFFF0;
+        --soft-black: #1A1A1A;
+        --cream: #F5F5DC;
+    }
+
+    /* Luxury Hero Section */
+    #hero-section {
+        height: 300px !important;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'home/images/header.png' %}') !important;
+        background-position: center !important;
+        background-size: cover !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    #hero-section h3 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 3rem;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        position: relative;
+        padding-bottom: 1rem;
+        margin: 0;
+    }
+
+    #hero-section h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--gold);
+    }
+
+    /* Luxury Table Design */
+    .table-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        overflow: hidden;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .table thead th {
+        background-color: var(--ivory);
+        color: var(--dark-charcoal);
+        font-weight: 600;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 2px solid var(--gold);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(212, 175, 55, 0.05);
+    }
+
+    .table tbody td {
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        vertical-align: middle;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .table tbody td:first-child {
+        font-weight: 500;
+        color: var(--dark-charcoal);
+    }
+
+    /* Button Styles */
+    .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: var(--gold);
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #C19A00;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-warning {
+        background-color: #FFC107;
+        color: var(--dark-charcoal);
+    }
+
+    .btn-warning:hover {
+        background-color: #E0A800;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-danger {
+        background-color: #DC3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #C82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn i {
+        margin-right: 0.5rem;
+    }
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+        .table-container {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        
+        .table thead th, .table tbody td {
+            padding: 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>RaiseUp - Premium Categories</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<!-- Luxury Hero Section -->
+<section class="d-flex align-items-center justify-content-center" id="hero-section">
+    <div class="container text-center">
+        <h3>Our Curated Categories</h3>
+        <p class="text-white mt-3 mb-0">Discover projects by category</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<div class="container my-5">
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>View Projects</th>
+                    {% if user.is_superuser %}
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>
+                        <span class="category-name">{{ category.name }}</span>
+                        {% if category.num_projects %}
+                        <span class="badge bg-gold-light text-gold ms-2">{{ category.num_projects }} project{{ category.num_projects|pluralize }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'category_projects' category.id %}" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                    </td>
+                    {% if user.is_superuser %}
+                    <td>
+                        <a href="{% url 'edit_category' category.id %}" class="btn btn-warning">
+                            <i class="fas fa-pen-to-square"></i> Edit
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_category' category.id %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'JS_attachement' %}
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    // Add animation to table rows
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('.table tbody tr');
+        rows.forEach((row, index) => {
+            row.style.opacity = '0';
+            row.style.transform = 'translateY(20px)';
+            row.style.transition = `all 0.3s ease ${index * 0.1}s`;
+            
+            setTimeout(() => {
+                row.style.opacity = '1';
+                row.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}

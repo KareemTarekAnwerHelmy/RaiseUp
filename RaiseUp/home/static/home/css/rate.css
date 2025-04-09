@@ -1,0 +1,69 @@
+.rate {
+    display: inline-block;
+    height: 46px;
+    padding: 0;
+    position: relative;
+}
+
+.rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
+}
+
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 2rem;
+    color: var(--star-inactive, #E0E0E0);
+    transition: all 0.2s ease;
+    margin-right: 2px;
+}
+
+.rate:not(:checked) > label:before {
+    content: "★";
+    font-family: 'Arial', sans-serif;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.rate > input:checked ~ label {
+    color: var(--star-active, #FFD700);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Hover effects */
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: var(--star-hover, #F9D75F);
+    transform: scale(1.1);
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: var(--star-active-hover, #FFE14D);
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Animation for checked stars */
+@keyframes starPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.rate > input:checked ~ label {
+    animation: starPulse 0.3s ease;
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+    .rate:not(:checked) > label {
+        font-size: 1.5rem;
+    }
+}

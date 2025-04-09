@@ -1,0 +1,90 @@
+:root {
+    --main-color: #D4AF37; /* Rich gold for luxury feel */
+    --main-color-hover: #C19A00; /* Darker gold for hover states */
+    --secondary-color: #EC6C5A; /* Original color as secondary */
+    --white-color: #FFFFFF;
+    --ivory: #FFFFF0; /* Luxury background */
+    --charcoal: #333333; /* Sophisticated text color */
+    --soft-black: #1A1A1A; /* Dark backgrounds */
+}
+
+.special-color {
+    color: var(--main-color);
+}
+
+.special-bg {
+    background-color: var(--main-color);
+}
+
+/* Enhanced Client Section */
+.carousel-indicators [data-bs-target] {
+    background-color: var(--main-color);
+    width: 20px;
+    height: 4px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators [data-bs-target].active {
+    width: 35px;
+    opacity: 1;
+}
+
+/* Premium Button Styles */
+.btn-special,
+.btn-outline-special {
+    --bs-btn-border-color: var(--main-color);
+    --bs-btn-hover-color: var(--white-color);
+    --bs-btn-hover-bg: var(--main-color-hover);
+    --bs-btn-hover-border-color: var(--main-color-hover);
+    --bs-btn-active-color: var(--white-color);
+    --bs-btn-active-bg: var(--main-color-hover);
+    --bs-btn-active-border-color: var(--main-color-hover);
+    --bs-btn-disabled-border-color: var(--main-color-hover);
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn-special {
+    --bs-btn-color: var(--white-color);
+    --bs-btn-bg: var(--main-color);
+    --bs-btn-disabled-color: var(--white-color);
+    --bs-btn-disabled-bg: var(--main-color-hover);
+    box-shadow: 0 4px 6px rgba(212, 175, 55, 0.2);
+}
+
+.btn-special:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+}
+
+.btn-outline-special {
+    --bs-btn-color: var(--main-color);
+    --bs-btn-disabled-color: var(--main-color);
+    --bs-btn-disabled-bg: transparent;
+    --bs-gradient: none;
+    background-color: transparent;
+    border-width: 2px;
+}
+
+.btn-outline-special:hover {
+    background-color: rgba(212, 175, 55, 0.05);
+}
+
+/* Additional Luxury Elements */
+.luxury-divider {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, var(--main-color), rgba(212, 175, 55, 0.2));
+    margin: 1.5rem auto;
+}
+
+.text-charcoal {
+    color: var(--charcoal);
+}
+
+.bg-ivory {
+    background-color: var(--ivory);
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Categories | RaiseUp</title>
+    <!-- Luxury Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-charcoal: #333333;
+            --ivory: #FFFFF0;
+            --soft-black: #1A1A1A;
+            --cream: #F5F5DC;
+        }
+
+        body {
+            background-color: var(--ivory);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-charcoal);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Luxury Header */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+            color: var(--dark-charcoal);
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        /* Luxury Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .category-image {
+            height: 180px;
+            background-color: var(--cream);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .category-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+        }
+
+        .category-content {
+            padding: 1.5rem;
+        }
+
+        .category-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: var(--dark-charcoal);
+        }
+
+        .category-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--gold);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .category-link:hover {
+            color: #C19A00;
+        }
+
+        .category-link i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .category-link:hover i {
+            transform: translateX(3px);
+        }
+
+        .project-count {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+                margin: 2rem 0;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Our Curated Categories</h1>
+        
+        <div class="category-grid">
+            {% for category in categories %}
+            <div class="category-card">
+                <div class="category-image" style="background-image: url('{% static 'images/category-placeholder.jpg' %}');">
+                    <!-- Optional: Add category-specific images if available -->
+                </div>
+                <div class="category-content">
+                    <h3 class="category-name">{{ category.name }}</h3>
+                    {% if category.num_projects %}
+                    <span class="project-count">{{ category.num_projects }} project{{ category.num_projects|pluralize }}</span>
+                    {% endif %}
+                    <a href="{% url 'category.detail' category.id %}" class="category-link">
+                        Explore Collection <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
