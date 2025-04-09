@@ -14,7 +14,7 @@ from users.forms import UserProfileForm
 from .forms import UserProfileForm, ChangePasswordForm
 from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponseServerError
-from project.models import Project, Donation
+from projects.models import Project, Donation
 from django.utils import timezone
 
 def activate_email(request, user, to_email):
