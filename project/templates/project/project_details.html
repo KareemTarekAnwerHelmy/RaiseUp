@@ -1,0 +1,231 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'homepage/css/rate.css' %}">
+<link rel="stylesheet" href="{% static 'homepage/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+
+<style>
+
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>Project Details | Saned</title>
+{% endblock %}
+
+{% block 'body-content' %}
+{% include "project/deleteDialog.html" %}
+{% include "project/ReportProjectDialog.html" %}
+{% include "project/donationDialog.html" %}
+
+<div class="container project-details-container">
+    <!-- Main Project Content -->
+    <div class="project-content">
+        <div class="project-card">
+            <!-- Project Carousel -->
+            <div id="projectCarousel" class="carousel slide project-carousel" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                    {% for i in counter %}
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="{{ forloop.counter }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner h-100">
+                    {% for image_url in image_urls %}
+                    <div class="carousel-item h-100{% if forloop.first %} active{% endif %}">
+                        <img src="{{ image_url }}" class="d-block w-100" alt="Project image">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
+            <!-- Project Body -->
+            <div class="project-body">
+                <h1 class="project-title">{{ project.title }}</h1>
+                
+                <div class="project-meta">
+                    <span>From: {{ project.created_at|date:"M d, Y" }}</span> • 
+                    <span>To: {{ project.end_date|date:"M d, Y" }}</span>
+                </div>
+                
+                <h5>What The Funds Are For:</h5>
+                <div class="project-description">
+                    {{ project.details }}
+                </div>
+                
+                <div class="tags-container">
+                    {% for tag in tags %}
+                    <a href="#" class="tag">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                
+                {% if project.owner != user %}
+                <div class="user-rating">
+                    <span class="d-flex align-items-center">
+                        <p class="fw-semibold m-0 me-2">Your Rating:</p>
+                        {% for star_num in '12345' %}
+                        {% if star_num|add:0 <= rate %}
+                        <i class="fa-solid fa-star text-warning"></i>
+                        {% else %}
+                        <i class="fa-regular fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </span>
+                </div>
+                {% endif %}
+                
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h5 class="comments-title">Comments ({{ comments|length }})</h5>
+                    
+                    <ul class="comment-list">
+                        {% if comments %}
+                        {% for comment in comments %}
+                        <li class="comment-item">
+                            <div class="comment-header">
+                                <img src="{{ comment.user.profile_picture_url }}" alt="{{ comment.user.first_name }}" class="comment-user-img">
+                                <div>
+                                    <h6 class="comment-user-name">{{ comment.user.first_name }} {{ comment.user.last_name }}</h6>
+                                    <p class="comment-time">{{ comment.created_at }}</p>
+                                </div>
+                            </div>
+                            <p class="comment-content">{{ comment.comment }}</p>
+                            <a href="{% url 'create_commentReport' comment.id %}" class="comment-report">
+                                <i class="fa-solid fa-flag"></i> Report
+                            </a>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <li>No comments yet.</li>
+                        {% endif %}
+                    </ul>
+                    
+                    <!-- Comment Form -->
+                    <form class="comment-form" method="post" action="{% url 'create_comment' project.id %}">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="comment" class="form-label">Add a comment:</label>
+                            <textarea id="comment" name="comment" rows="3" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="action-btn donate-btn">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Similar Projects -->
+        <div class="similar-projects">
+            <h4 class="similar-projects-title">Similar Projects</h4>
+            
+            <div class="similar-projects-grid">
+                {% for project in similar_projects %}
+                <div class="similar-project-card">
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}" class="similar-project-img">
+                    <div class="similar-project-body">
+                        <h5 class="similar-project-title">{{ project.title }}</h5>
+                        <div class="similar-project-rating">
+                            <span class="me-2">Rating:</span>
+                            {% for star in "*****" %}
+                            {% if forloop.counter <= project.rate %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'project_details' id=project.id %}" class="view-details-btn">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Project Sidebar -->
+    <div class="project-sidebar">
+        <div class="progress-container">
+            <h3 class="d-flex align-items-baseline">
+                {{ total_donation }} <small class="ms-1">EGP</small>
+                <span class="text-secondary mx-2">
+                    <small>raised out of {{ project.total_target }} EGP</small>
+                </span>
+            </h3>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ donation_average }}%" 
+                    aria-valuenow="{{ total_donation }}" aria-valuemin="0" aria-valuemax="{{ project.total_target }}"></div>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value">{{ donation_count }}</div>
+                <div class="stat-label">Donations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ average_rating|floatformat:1 }}</div>
+                <div class="stat-label">Rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{% if days_left <= 0 %}0{% else %}{{ days_left }}{% endif %}</div>
+                <div class="stat-label">Days left</div>
+            </div>
+        </div>
+        
+        {% if project.owner == user %}
+            <button data-bs-toggle="modal" data-bs-target="#deleteDialog" 
+                class="action-btn cancel-btn" 
+                {% if project.current_donation >= target_threshold %}disabled{% endif %}>
+                <i class="fa-solid fa-trash me-2"></i>Cancel Project
+            </button>
+            
+            {% if project.current_donation >= target_threshold %}
+            <div class="alert-message alert-primary">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Project cancellation is not allowed. Donation exceeds 25% of the total target.
+            </div>
+            {% endif %}
+        {% else %}
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                class="action-btn donate-btn"
+                {% if days_left < 0 or reportsNumber > 10 or project.current_donation >= project.total_target %}disabled{% endif %}>
+                <i class="fas fa-donate me-2"></i>Donate Now
+            </button>
+            
+            <div class="rating-container">
+                <form method="post" action="{% url 'rate_project' project.id %}">
+                    {% csrf_token %}
+                    <div class="rate">
+                        {% for level in '54321' %}
+                        <input type="radio" name="rate" id="rate-{{level}}" value="{{level}}" 
+                            {% if rate_by_user == level %}checked{% endif %}>
+                        <label for="rate-{{level}}"></label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="action-btn btn-secondary mt-3">Submit Rating</button>
+                </form>
+            </div>
+            
+            <button data-bs-toggle="modal" data-bs-target="#ReportDialog" class="report-btn">
+                <i class="fa-solid fa-flag me-2"></i>Report Project
+            </button>
+            
+            {% if reportsNumber > 10 %}
+            <div class="alert-message alert-primary mt-3">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Suspended Project (Has Many Reports)
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

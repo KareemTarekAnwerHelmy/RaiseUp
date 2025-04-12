@@ -1,0 +1,265 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<style>
+    /* Projects List Section */
+    .projects-section {
+        padding: 3rem 0;
+        background: var(--white-color);
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .section-title {
+        position: relative;
+        display: inline-block;
+        color: var(--gray-color);
+    }
+    
+    .section-title:after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--main-color);
+    }
+    
+    /* Projects Grid */
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+    
+    /* Project Card */
+    .project-card {
+        background: var(--white-color);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .project-image {
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+    
+    .project-content {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--gray-color);
+    }
+    
+    .project-target {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--gray-color);
+    }
+    
+    .funding-status {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    .fully-funded {
+        color: var(--secondary-color);
+    }
+    
+    .project-dates {
+        font-size: 0.85rem;
+        color: var(--gray-color);
+        margin-bottom: 1rem;
+    }
+    
+    .project-tags {
+        margin-top: auto;
+        margin-bottom: 1rem;
+    }
+    
+    .tag {
+        display: inline-block;
+        background: var(--gray-color-subtle);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray-color);
+    }
+    
+    .view-details-btn {
+        background: var(--main-color);
+        color: var(--white-color);
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .view-details-btn:hover {
+        background: var(--main-color-hover);
+        color: var(--white-color);
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 0;
+    }
+    
+    .empty-state .icon {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        background-image: linear-gradient(rgb(0 0 0 / 14%), rgb(0 0 0 / 46%)), url(/static/homepage/images/header.png);
+        background-position: center;
+        background-size: cover;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white-color);
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .hero-section {
+            height: 200px;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .project-image {
+            height: 180px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>My Projects | Saned</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title"><span class="fw-bold">My Projects</span></h1>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<section class="projects-section">
+    <div class="container">
+        {% if user_projects %}
+        <div class="section-header">
+            <h2 class="section-title">My <span class="fw-bold">Projects</span></h2>
+        </div>
+        
+        <div class="projects-grid">
+            {% for project in user_projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}">
+                </div>
+                
+                <div class="project-content">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-target">Target: {{ project.total_target }} EGP</div>
+                    
+                    <div class="funding-status {% if project.remaining_target <= 0 %}fully-funded{% endif %}">
+                        {% if project.remaining_target <= 0 %}
+                            Fully Funded 🎉
+                        {% else %}
+                            Remaining: {{ project.remaining_target }} EGP
+                        {% endif %}
+                    </div>
+                    
+                    <div class="project-dates">
+                        <div><i class="far fa-calendar-alt me-2"></i> Starts: {{ project.start_date }}</div>
+                        <div><i class="far fa-calendar-alt me-2"></i> Ends: {{ project.end_date }}</div>
+                    </div>
+                    
+                    <div class="project-tags">
+                        {% for tag in project.tag.all|slice:":4" %}
+                        <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                        {% if project.tag.count > 4 %}
+                        <span class="tag">+{{ project.tag.count|add:"-4" }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <a href="{% url 'project_details' id=project.id %}" class="view-details-btn mt-3">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <h3>No Projects Created Yet!</h3>
+            <p class="text-muted">You haven't created any projects yet. Start by creating your first project.</p>
+            <a href="{% url 'project.create_project' %}" class="btn btn-primary" style="background: var(--main-color); border-color: var(--main-color);">
+                Create Project
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

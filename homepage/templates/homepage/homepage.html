@@ -1,0 +1,399 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'homepage/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<style>
+    /* Hero Section */
+    #hero-section {
+        background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+        color: var(--white-color);
+        padding: 5rem 0;
+    }
+
+    .hero-content {
+        max-width: 600px;
+    }
+
+    .search-form {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 50px;
+        padding: 0.5rem;
+    }
+
+    .search-input {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+    }
+
+    .search-btn {
+        background: var(--white-color);
+        color: var(--main-color);
+    }
+
+    /* About Section */
+    #about-us {
+        padding: 5rem 0;
+        background: var(--white-color);
+    }
+
+    /* Projects Sections */
+    .section-title {
+        position: relative;
+        margin-bottom: 3rem;
+    }
+
+    .section-title:after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--main-color);
+    }
+
+    .project-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .project-img-container {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .project-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-img {
+        transform: scale(1.05);
+    }
+
+    .project-rating .fas.fa-star {
+        color: var(--secondary-color);
+    }
+
+    .project-btn {
+        background: var(--main-color);
+        color: var(--white-color);
+    }
+
+    .project-btn:hover {
+        background: var(--main-color-hover);
+    }
+
+    /* Highest Rated Projects Carousel */
+    #highest-rated {
+        padding: 5rem 0;
+        background: var(--gray-color-subtle);
+    }
+
+    .carousel-item {
+        height: 400px;
+    }
+
+    .carousel-content {
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+        position: relative;
+    }
+
+    .carousel-overlay {
+        background: rgba(0,0,0,0.6);
+    }
+
+    .carousel-caption {
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: left;
+    }
+
+    /* Categories Section */
+    #popular-categories {
+        padding: 5rem 0;
+    }
+
+    .category-card {
+        transition: all 0.3s ease;
+        background: var(--white-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        height: 100%;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background: var(--main-color-subtle);
+    }
+
+    .category-icon {
+        color: var(--main-color);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        #hero-section {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            margin-top: 2rem;
+        }
+
+        .carousel-item {
+            height: 300px;
+        }
+
+        .carousel-caption {
+            top: auto;
+            bottom: 0;
+            transform: none;
+            padding: 1rem;
+        }
+
+        .category-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>Saned - Empowering Dreams</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<section id="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4">Empower Ideas. Drive Change.</h1>
+                    <p class="lead mb-4">Fuel innovation and support the projects that inspire you.</p>
+                    
+                    <form method="GET" action="{% url 'search' %}" class="search-form d-flex align-items-center">
+                        <select name="search_option" class="form-select rounded-pill me-2 border-0 shadow-none">
+                            <option value="project">Project</option>
+                            <option value="tag">Tag</option>
+                        </select>
+                        <input type="text" name="query" placeholder="Search for a project..." 
+                               class="form-control rounded-pill search-input border-0 shadow-none">
+                        <button type="submit" class="btn rounded-pill search-btn ms-2">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'homepage/images/goals.svg' %}" alt="Crowdfunding visual" class="img-fluid hero-image">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<!-- About Us Section -->
+<section id="about-us">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="section-title text-center text-lg-start"><span class="fw-bold">About</span> Us</h2>
+                <p class="lead">
+                    <b>Saned</b> is a purpose-driven crowdfunding platform based in Egypt. We connect passionate creators and changemakers with supportive backers to turn brilliant ideas into impactful realities.
+                </p>
+                <p>
+                    Whether you're launching a tech innovation, social cause, or creative project — Saned gives you the tools, exposure, and community to thrive.
+                </p>
+                <p>
+                    Join our growing network of dreamers, doers, and donors. Together, we make progress possible.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'homepage/images/about.svg' %}" alt="About Saned" class="img-fluid rounded-3 ">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Highest Rated Projects -->
+<section id="highest-rated">
+    <div class="container">
+        <h2 class="section-title text-center"><span class="fw-bold">Highest-rated</span> projects</h2>
+        
+        <div id="highestRatedCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-3 overflow-hidden">
+                {% for project in highest_rated_projects %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="carousel-content" style="background-image: url('{{ project.image_url }}');">
+                        <div class="carousel-overlay h-100 w-100 position-absolute"></div>
+                        <div class="carousel-caption position-relative">
+                            <div class="container">
+                                <h3 class="fw-bold">{{ project.title }}</h3>
+                                <p class="d-none d-md-block">{{ project.details|truncatewords:20 }}</p>
+                                <div class="project-rating mb-3">
+                                    {% for star in "*****" %}
+                                        {% if forloop.counter <= project.rate %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% if not user.is_superuser %}
+                                <a href="{% url 'project_details' id=project.id %}" class="btn project-btn rounded-pill px-4">Donate Now</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button class="carousel-control-prev" type="button" data-bs-target="#highestRatedCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#highestRatedCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section id="featured" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Featured <span class="fw-bold">Projects</span></h2>
+        
+        <div class="row g-4">
+            {% for project in latest_featured_projects %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="project-card card h-100 border-0 shadow-sm">
+                    <div class="project-img-container">
+                        <img src="{{ project.image_url }}" class="project-img" alt="{{ project.title }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <div class="project-rating mb-3">
+                            {% for star in "*****" %}
+                                {% if forloop.counter <= project.rate %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if not user.is_superuser %}
+                        <a href="{% url 'project_details' id=project.id %}" class="btn project-btn w-100">View Details</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Latest Projects -->
+<section id="latest-projects" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center">Latest <span class="fw-bold">Projects</span></h2>
+        
+        <div class="row g-4">
+            {% for project in latest_created_projects %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="project-card card h-100 border-0 shadow-sm">
+                    <div class="project-img-container">
+                        <img src="{{ project.image_url }}" class="project-img" alt="{{ project.title }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <div class="project-rating mb-3">
+                            {% for star in "*****" %}
+                                {% if forloop.counter <= project.rate %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if not user.is_superuser %}
+                        <a href="{% url 'project_details' id=project.id %}" class="btn project-btn w-100">View Details</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Popular Categories -->
+<section id="popular-categories" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Popular <span class="fw-bold">Categories</span></h2>
+        
+        <div class="row g-4">
+            {% for category in categories_list %}
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                <a href="{% url 'category_projects' category.id %}" class="text-decoration-none">
+                    <div class="category-card text-center">
+                        <div class="category-icon">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h5 class="fw-bold">{{ category.name }}</h5>
+                        <p class="small text-muted">{{ category.num_projects }} Projects</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+            
+            {% if categories_list|length > 6 %}
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                <a href="{% url 'all_categories' %}" class="text-decoration-none">
+                    <div class="category-card text-center">
+                        <div class="category-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h5 class="fw-bold">View All</h5>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'JS_attachement' %}
+<script src="{% static 'homepage/js/script.js' %}"></script>
+{% endblock %}

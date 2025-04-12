@@ -1,0 +1,267 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<style>
+    /* Main Container */
+    .profile-edit-container {
+        display: flex;
+        min-height: calc(100vh - 120px);
+        align-items: center;
+        justify-content: center;
+        background: var(--gray-color-subtle);
+        padding: 2rem;
+    }
+    
+    /* Form Card */
+    .profile-form-card {
+        width: 100%;
+        max-width: 600px;
+        background: var(--white-color);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .profile-form-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    /* Form Header */
+    .form-header {
+        background: var(--main-color);
+        color: var(--white-color);
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .form-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    /* Form Body */
+    .form-body {
+        padding: 2rem;
+    }
+    
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 1.75rem;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--gray-color);
+    }
+    
+    .form-control, .form-select {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--gray-color-subtle);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 3px rgba(var(--main-color-rgb), 0.1);
+        outline: none;
+    }
+    
+    /* Profile Picture Preview */
+    .profile-picture-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .profile-picture-preview {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--gray-color-subtle);
+        margin-right: 1.5rem;
+    }
+    
+    .picture-upload-btn {
+        background: var(--main-color-subtle);
+        color: var(--main-color);
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .picture-upload-btn:hover {
+        background: var(--main-color);
+        color: var(--white-color);
+    }
+    
+    /* Error Messages */
+    .error-message {
+        color: var(--secondary-color);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .error-message i {
+        margin-right: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Form Footer */
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+        gap: 1rem;
+    }
+    
+    .btn-submit {
+        background: var(--main-color);
+        color: var(--white-color);
+        border: none;
+        border-radius: 8px;
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+        text-align: center;
+    }
+    
+    .btn-submit:hover {
+        background: var(--main-color-hover);
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background: var(--gray-color-subtle);
+        color: var(--gray-color);
+    }
+    
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .profile-edit-container {
+            padding: 1rem;
+        }
+        
+        .profile-form-card {
+            border-radius: 12px;
+        }
+        
+        .form-body {
+            padding: 1.5rem;
+        }
+        
+        .form-footer {
+            flex-direction: column;
+        }
+        
+        .profile-picture-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .profile-picture-preview {
+            margin-bottom: 1rem;
+            margin-right: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>Edit Profile | Saned</title>
+{% endblock %}
+
+{% block 'body-content' %}
+<div class="profile-edit-container">
+    <div class="profile-form-card">
+        <div class="form-header">
+            <h1 class="form-title">Edit Profile</h1>
+        </div>
+        
+        <div class="form-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Profile Picture -->
+                <div class="profile-picture-container">
+                    <img src="{{ user.customuser.profile_picture.url }}" alt="Profile Picture" class="profile-picture-preview" id="profilePicturePreview">
+                    <label for="id_profile_picture" class="picture-upload-btn">
+                        <i class="fas fa-camera me-2"></i>Change Photo
+                    </label>
+                    <input type="file" name="profile_picture" id="id_profile_picture" accept="image/*" style="display: none;">
+                </div>
+                
+                {% for field in user_form %}
+                    {% if field.name == 'country' %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-select">
+                            {% for value, label in field.field.choices %}
+                            <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% elif field.name == 'clear_checkbox' %}
+                    <div class="form-group form-check">
+                        {{ field }}
+                        <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                
+                <!-- Form Actions -->
+                <div class="form-footer">
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <a href="{% url 'change.password' %}" class="btn-submit btn-secondary">Change Password</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Profile picture preview
+    document.getElementById('id_profile_picture').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profilePicturePreview').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

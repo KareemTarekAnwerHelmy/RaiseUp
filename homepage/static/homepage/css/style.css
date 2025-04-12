@@ -1,0 +1,400 @@
+
+:root {
+    --white-color : #FFFFFF;
+    --main-color: #6366F1;
+    --main-color-hover: #2e3088;
+    --main-color-subtle: #e5f0ff;
+    
+}
+
+
+.special-color {
+    color: var(--main-color);
+}
+
+.special-bg {
+    background-color: var(--main-color);
+}
+
+/* Start Client Section */
+.carousel-indicators [data-bs-target] {
+    background-color: var(--main-color);
+    width: 20px;
+    height: 4px;
+}
+
+.carousel-indicators [data-bs-target].active {
+    width: 35px;
+}
+
+
+.btn-special,
+.btn-outline-special {
+    --bs-btn-border-color: var(--main-color);
+    --bs-btn-hover-color: var(--white-color);
+    --bs-btn-hover-bg: var(--main-color-hover);
+    --bs-btn-hover-border-color: var(--main-color-hover);
+    --bs-btn-active-color: var(--white-color);
+    --bs-btn-active-bg: var(--main-color-hover);
+    --bs-btn-active-border-color: var(--main-color-hover);
+    --bs-btn-disabled-border-color: var(--main-color-hover);
+}
+
+.btn-special {
+    --bs-btn-color: var(--white-color);
+    --bs-btn-bg: var(--main-color);
+    --bs-btn-disabled-color: var(--white-color);
+    --bs-btn-disabled-bg: var(--main-color-hover);
+}
+
+
+.btn-outline-special {
+    --bs-btn-color: var(--main-color);
+    --bs-btn-disabled-color: var(--main-color);
+    --bs-btn-disabled-bg: transparent;
+    --bs-gradient: none;
+}
+
+
+
+    /* Main Container */
+    .project-details-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+    
+    /* Project Content Section */
+    .project-content {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    /* Project Card */
+    .project-card {
+        background: var(--white-color);
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+    
+    /* Carousel */
+    .project-carousel {
+        width: 100%;
+        height: 400px;
+    }
+    
+    .project-carousel img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .carousel-indicators button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    /* Project Body */
+    .project-body {
+        padding: 2rem;
+    }
+    
+    .project-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--gray-color);
+        margin-bottom: 1rem;
+    }
+    
+    .project-meta {
+        color: var(--gray-color);
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .project-description {
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    /* Tags */
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .tag {
+        background: var(--gray-color-subtle);
+        color: var(--gray-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .tag:hover {
+        background: var(--main-color-subtle);
+        color: var(--main-color);
+    }
+    
+    /* Comments Section */
+    .comments-section {
+        margin-top: 2rem;
+    }
+    
+    .comments-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        color: var(--gray-color);
+    }
+    
+    .comment-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .comment-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--gray-color-subtle);
+    }
+    
+    .comment-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .comment-user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1rem;
+    }
+    
+    .comment-user-name {
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .comment-time {
+        color: var(--gray-color);
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .comment-content {
+        margin-bottom: 0.5rem;
+    }
+    
+    .comment-report {
+        color: var(--secondary-color);
+        font-size: 0.85rem;
+        text-decoration: none;
+    }
+    
+    .comment-form {
+        margin-top: 2rem;
+    }
+    
+    /* Sidebar */
+    .project-sidebar {
+        width: 350px;
+        background: var(--white-color);
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        padding: 2rem;
+        position: sticky;
+        top: 2rem;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    .progress {
+        height: 8px;
+        border-radius: 4px;
+        background: var(--gray-color-subtle);
+    }
+    
+    .progress-bar {
+        background: var(--main-color);
+    }
+    
+    /* Stats */
+    .stats-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-color);
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+        color: var(--gray-color);
+    }
+    
+    /* Buttons */
+    .action-btn {
+        width: 100%;
+        padding: 0.875rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .donate-btn {
+        background: var(--main-color);
+        color: var(--white-color);
+        border: none;
+    }
+    
+    .donate-btn:hover {
+        background: var(--main-color-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .cancel-btn {
+        background: var(--secondary-color);
+        color: var(--white-color);
+        border: none;
+    }
+    
+    .report-btn {
+        background: none;
+        border: none;
+        color: var(--secondary-color);
+        font-size: 0.85rem;
+        cursor: pointer;
+    }
+    
+    /* Rating */
+    .rating-container {
+        margin: 1.5rem 0;
+        text-align: center;
+    }
+    
+    .rating-stars {
+        font-size: 1.5rem;
+    }
+    
+    /* Similar Projects */
+    .similar-projects {
+        margin-top: 3rem;
+    }
+    
+    .similar-projects-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        color: var(--gray-color);
+    }
+    
+    .similar-projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .similar-project-card {
+        background: var(--white-color);
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .similar-project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .similar-project-img {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .similar-project-body {
+        padding: 1rem;
+    }
+    
+    .similar-project-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--gray-color);
+    }
+    
+    .similar-project-rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .view-details-btn {
+        width: 100%;
+        padding: 0.5rem;
+        background: var(--gray-color-subtle);
+        color: var(--gray-color);
+        border: none;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+    
+    .view-details-btn:hover {
+        background: var(--main-color-subtle);
+        color: var(--main-color);
+    }
+    
+    /* Alert Messages */
+    .alert-message {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .alert-primary {
+        background: rgba(var(--main-color-rgb), 0.1);
+        color: var(--main-color);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .project-details-container {
+            flex-direction: column;
+        }
+        
+        .project-sidebar {
+            width: 100%;
+            position: static;
+        }
+    }
+
+
+
+
+

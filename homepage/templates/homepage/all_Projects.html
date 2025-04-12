@@ -1,0 +1,282 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block 'CSS_attachement' %}
+<link rel="stylesheet" href="{% static 'css/general_styles.css' %}">
+<style>
+    /* Custom styles for projects page */
+    .project-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: var(--white-color);
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .project-img-container {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: var(--gray-color-subtle);
+    }
+    
+    .project-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .project-img {
+        transform: scale(1.05);
+    }
+    
+    .project-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+    
+    .project-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--gray-color);
+    }
+    
+    .project-target {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--gray-color);
+    }
+    
+    .progress {
+        height: 8px;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        background-color: var(--gray-color-subtle);
+    }
+    
+    .progress-bar {
+        background-color: var(--main-color);
+    }
+    
+    .funding-status {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .fully-funded {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+    
+    .project-dates {
+        font-size: 0.85rem;
+        color: var(--gray-color);
+        margin-bottom: 1rem;
+    }
+    
+    .project-tags {
+        margin-top: auto;
+        margin-bottom: 1rem;
+    }
+    
+    .tag {
+        display: inline-block;
+        background-color: var(--gray-color-subtle);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray-color);
+        border: 1px solid var(--gray-color-subtle);
+    }
+    
+    .featured-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+    }
+    
+    .featured-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        background-color: var(--secondary-color);
+        color: var(--white-color);
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+    }
+    
+    .btn-primary {
+        background-color: var(--main-color);
+        border-color: var(--main-color);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--main-color-hover);
+        border-color: var(--main-color-hover);
+    }
+    
+    .hero-section {
+        background-position: center;
+        background-size: cover;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white-color);
+    }
+    
+    @media (max-width: 768px) {
+        .project-img-container {
+            height: 160px;
+        }
+        
+        .project-body {
+            padding: 1rem;
+        }
+        
+        .hero-section {
+            height: 200px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block 'page-title' %}
+<title>Saned - All Projects</title>
+{% endblock %}
+
+{% block 'hero-section-content' %}
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: linear-gradient(rgb(0 0 0 / 14%), rgb(0 0 0 / 46%)), url(/static/homepage/images/header.png);">
+    <div class="container py-5">
+        <h1 class="display-5 fw-bold mb-3">Discover Projects</h1>
+        <p class="lead">Support innovative ideas and make a difference</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'body-content' %}
+<div class="container py-5">
+    <!-- Projects Grid -->
+    <div class="row g-4">
+        {% for project in projects %}
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="project-card card h-100 shadow-sm">
+                <!-- Featured Badge -->
+                {% if project.is_featured %}
+                <span class="featured-badge">Featured</span>
+                {% endif %}
+                
+                <!-- Project Image -->
+                <div class="project-img-container">
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}" class="project-img">
+                </div>
+                
+                <div class="project-body">
+                    <!-- Project Title -->
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    
+                    <!-- Project Target -->
+                    <div class="project-target">
+                        Target: {{ project.total_target }} EGP
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress">
+                        {% widthratio project.total_target|add:"0" project.total_target|add:project.remaining_target 100 as progress_percent %}
+                        <div class="progress-bar" role="progressbar" style="width: {{ progress_percent }}%" 
+                             aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <!-- Funding Status -->
+                    <div class="funding-status {% if project.remaining_target <= 0 %}fully-funded{% endif %}">
+                        {% if project.remaining_target <= 0 %}
+                            Fully Funded 🎉
+                        {% else %}
+                            Remaining: {{ project.remaining_target }} EGP
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Project Dates -->
+                    <div class="project-dates">
+                        <div><i class="far fa-calendar-alt me-2"></i> Starts: {{ project.start_date|date:"M d, Y" }}</div>
+                        <div><i class="far fa-calendar-alt me-2"></i> Ends: {{ project.end_date|date:"M d, Y" }}</div>
+                    </div>
+                    
+                    <!-- Project Tags -->
+                    <div class="project-tags">
+                        {% for tag in project.tag.all %}
+                        <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-auto">
+                        {% if user.is_superuser %}
+                        <form method="POST" action="{% url 'mark_featured' %}" class="featured-toggle">
+                            {% csrf_token %}
+                            <input type="hidden" name="project_id" value="{{ project.id }}">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" 
+                                       id="featuredToggle{{ project.id }}" name="is_featured" 
+                                       {% if project.is_featured %}checked{% endif %}
+                                       onchange="this.form.submit()">
+                                <label class="form-check-label" for="featuredToggle{{ project.id }}"></label>
+                            </div>
+                        </form>
+                        {% endif %}
+                        
+                        <a href="{% url 'project_details' id=project.id %}" class="btn btn-primary w-100 mt-2">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="alert alert-info" style="background-color: var(--main-color-subtle); border-color: var(--main-color); color: var(--gray-color);">
+                <i class="fas fa-info-circle me-2"></i> No projects available at the moment.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block 'JS_attachement' %}
+<script>
+    // Function to handle featured toggle
+    function toggleFeatured(projectId) {
+        const form = document.getElementById('featuredForm' + projectId);
+        form.submit();
+    }
+    
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+{% endblock %}
